@@ -1,244 +1,449 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Personal Finance Pro</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
-*{box-sizing:border-box}
-body{
-margin:0;padding:32px;font-family:Segoe UI,Arial,sans-serif;
-background:#0b1220;color:#fff;
-}
-.container{max-width:1400px;margin:auto}
-.header{margin-bottom:30px}
-.header h1{margin:0;font-size:36px}
-.header p{color:#94a3b8}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Personal Finance Pro</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 32px;
+        font-family:
+          Segoe UI,
+          Arial,
+          sans-serif;
+        background: #0b1220;
+        color: #fff;
+      }
+      .container {
+        max-width: 1400px;
+        margin: auto;
+      }
+      .header {
+        margin-bottom: 30px;
+      }
+      .header h1 {
+        margin: 0;
+        font-size: 36px;
+      }
+      .header p {
+        color: #94a3b8;
+      }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:24px;
-margin-bottom:30px;
-}
-.card{
-background:#111c31;
-border:1px solid #233252;
-border-radius:20px;
-padding:24px;
-}
-.metric{font-size:34px;font-weight:700;margin-top:10px}
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        margin-bottom: 30px;
+      }
+      .card {
+        background: #111c31;
+        border: 1px solid #233252;
+        border-radius: 20px;
+        padding: 24px;
+      }
+      .metric {
+        font-size: 34px;
+        font-weight: 700;
+        margin-top: 10px;
+      }
 
-.layout{
-display:grid;
-grid-template-columns:1.2fr 1fr;
-gap:30px;
-margin-bottom:30px;
-}
+      .layout {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 30px;
+        margin-bottom: 30px;
+      }
 
-.form-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:16px;
-}
-.form-grid input,.form-grid select{
-width:100%;
-padding:14px;
-border-radius:12px;
-border:1px solid #2e426c;
-background:#09111f;
-color:#fff;
-}
-.btn{
-padding:14px 20px;border:none;border-radius:12px;
-background:#2563eb;color:#fff;cursor:pointer;font-weight:600;
-}
-.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      .form-grid input,
+      .form-grid select {
+        width: 100%;
+        padding: 14px;
+        border-radius: 12px;
+        border: 1px solid #2e426c;
+        background: #09111f;
+        color: #fff;
+      }
+      .btn {
+        padding: 14px 20px;
+        border: none;
+        border-radius: 12px;
+        background: #2563eb;
+        color: #fff;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 16px;
+      }
 
-.chart-wrap{
-height:380px;
-}
+      .chart-wrap {
+        height: 380px;
+      }
 
-.table-card{margin-top:30px}
-table{width:100%;border-collapse:collapse}
-th,td{padding:14px;text-align:left}
-th{background:#16233d}
-tr:nth-child(even){background:#101a2d}
+      .table-card {
+        margin-top: 30px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 14px;
+        text-align: left;
+      }
+      th {
+        background: #16233d;
+      }
+      tr:nth-child(even) {
+        background: #101a2d;
+      }
 
-.badge-in{color:#4ade80;font-weight:700}
-.badge-out{color:#f87171;font-weight:700}
+      .badge-in {
+        color: #4ade80;
+        font-weight: 700;
+      }
+      .badge-out {
+        color: #f87171;
+        font-weight: 700;
+      }
 
-@media(max-width:1000px){
-.grid,.layout{grid-template-columns:1fr}
-}
-</style>
-</head>
-<body>
-<div class="container">
+      @media (max-width: 1000px) {
+        .grid,
+        .layout {
+          grid-template-columns: 1fr;
+        }
+      }
 
-<div class="header">
-<h1>💰 Personal Finance Pro</h1>
-<p>Dashboard pemasukan, pengeluaran, saldo, dan analisis keuangan</p>
-</div>
+      #lockscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #020617;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999999;
+      }
 
-<div class="grid">
-<div class="card"><div>Total Pemasukan</div><div id="income" class="metric">Rp 0</div></div>
-<div class="card"><div>Total Pengeluaran</div><div id="expense" class="metric">Rp 0</div></div>
-<div class="card"><div>Saldo</div><div id="balance" class="metric">Rp 0</div></div>
-</div>
+      .login-box {
+        width: 420px;
+        background: #111c31;
+        padding: 40px;
+        border-radius: 20px;
+        border: 1px solid #233252;
+        text-align: center;
+      }
 
-<div class="layout">
-<div class="card">
-<h2>Tambah Transaksi</h2>
-<div class="form-grid">
-<input type="date" id="tanggal">
-<select id="jenis">
-<option>Pemasukan</option>
-<option>Pengeluaran</option>
-</select>
-<input type="text" id="ket" placeholder="Keterangan">
-<input type="number" id="jumlah" placeholder="Nominal">
-</div>
+      .login-box h1 {
+        margin-top: 0;
+      }
 
-<div class="actions">
-<button class="btn" onclick="addData()">Tambah Data</button>
-<button class="btn" onclick="exportJSON()">Export JSON</button>
-<input type="file" onchange="importFile(event)">
-</div>
-</div>
+      .login-box input {
+        width: 100%;
+        padding: 14px;
+        border-radius: 12px;
+        border: 1px solid #334155;
+        background: #09111f;
+        color: white;
+        margin-top: 10px;
+      }
 
-<div class="card">
-<h2>Komposisi Keuangan</h2>
-<div class="chart-wrap">
-<canvas id="pieChart"></canvas>
-</div>
-</div>
-</div>
+      .login-box button {
+        width: 100%;
+        margin-top: 15px;
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        background: #2563eb;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+      }
 
-<div class="card">
-<h2>Grafik Pemasukan vs Pengeluaran</h2>
-<div class="chart-wrap">
-<canvas id="barChart"></canvas>
-</div>
-</div>
+      #loginInfo {
+        display: block;
+        margin-top: 10px;
+        color: #ef4444;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="lockscreen">
+      <div class="login-box">
+        <h1>🔒 Finance Vault</h1>
 
-<div class="card table-card">
-<h2>Riwayat Transaksi</h2>
-<table>
-<thead>
-<tr>
-<th>Tanggal</th>
-<th>Jenis</th>
-<th>Keterangan</th>
-<th>Jumlah</th>
-<th></th>
-</tr>
-</thead>
-<tbody id="tbody"></tbody>
-</table>
-</div>
+        <input
+          type="password"
+          id="loginPassword"
+          placeholder="Masukkan Password"
+        />
 
-</div>
+        <button onclick="login()">Buka Dashboard</button>
 
-<script>
-let data = JSON.parse(localStorage.getItem("financePro")) || [];
+        <small id="loginInfo"></small>
+      </div>
+    </div>
 
-function rp(x){
-return "Rp " + Number(x).toLocaleString("id-ID");
-}
+    <div class="container">
+      <div class="header">
+        <h1>💰 Personal Finance Pro</h1>
+        <p>Dashboard pemasukan, pengeluaran, saldo, dan analisis keuangan</p>
+      </div>
 
-const pieCtx=document.getElementById('pieChart');
-const barCtx=document.getElementById('barChart');
+      <div class="grid">
+        <div class="card">
+          <div>Total Pemasukan</div>
+          <div id="income" class="metric">Rp 0</div>
+        </div>
+        <div class="card">
+          <div>Total Pengeluaran</div>
+          <div id="expense" class="metric">Rp 0</div>
+        </div>
+        <div class="card">
+          <div>Saldo</div>
+          <div id="balance" class="metric">Rp 0</div>
+        </div>
+      </div>
 
-let pieChart=new Chart(pieCtx,{
-type:'doughnut',
-data:{labels:['Pemasukan','Pengeluaran'],
-datasets:[{data:[0,0]}]}
-});
+      <div class="layout">
+        <div class="card">
+          <h2>Tambah Transaksi</h2>
+          <div class="form-grid">
+            <input type="date" id="tanggal" />
+            <select id="jenis">
+              <option>Pemasukan</option>
+              <option>Pengeluaran</option>
+            </select>
+            <input type="text" id="ket" placeholder="Keterangan" />
+            <input type="number" id="jumlah" placeholder="Nominal" />
+          </div>
 
-let barChart=new Chart(barCtx,{
-type:'bar',
-data:{
-labels:['Pemasukan','Pengeluaran'],
-datasets:[{label:'Nominal',data:[0,0]}]
-}
-});
+          <div class="actions">
+            <button class="btn" onclick="addData()">Tambah Data</button>
+            <button class="btn" onclick="exportJSON()">Export JSON</button>
+            <input type="file" onchange="importFile(event)" />
+          </div>
+        </div>
 
-function render(){
-let income=0,expense=0;
+        <div class="card">
+          <h2>Komposisi Keuangan</h2>
+          <div class="chart-wrap">
+            <canvas id="pieChart"></canvas>
+          </div>
+        </div>
+      </div>
 
-tbody.innerHTML='';
+      <div class="card">
+        <h2>Grafik Pemasukan vs Pengeluaran</h2>
+        <div class="chart-wrap">
+          <canvas id="barChart"></canvas>
+        </div>
+      </div>
 
-data.forEach((d,i)=>{
-if(d.jenis==='Pemasukan') income+=d.jumlah;
-else expense+=d.jumlah;
+      <div class="card table-card">
+        <h2>Riwayat Transaksi</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th>Jenis</th>
+              <th>Keterangan</th>
+              <th>Jumlah</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
 
-tbody.innerHTML += `
+    <script>
+      let data = JSON.parse(localStorage.getItem("financePro")) || [];
+
+      const PASSWORD_HASH =
+        "d9b5f58f0b38198293971865a14074f59eba3e82595becbe86ae51f1d9f1f65e";
+
+      let failCount = Number(localStorage.getItem("failCount")) || 0;
+
+      function rp(x) {
+        return "Rp " + Number(x).toLocaleString("id-ID");
+      }
+
+      const pieCtx = document.getElementById("pieChart");
+      const barCtx = document.getElementById("barChart");
+
+      let pieChart = new Chart(pieCtx, {
+        type: "doughnut",
+        data: {
+          labels: ["Pemasukan", "Pengeluaran"],
+          datasets: [{ data: [0, 0] }],
+        },
+      });
+
+      let barChart = new Chart(barCtx, {
+        type: "bar",
+        data: {
+          labels: ["Pemasukan", "Pengeluaran"],
+          datasets: [{ label: "Nominal", data: [0, 0] }],
+        },
+      });
+
+      function render() {
+        let income = 0,
+          expense = 0;
+
+        tbody.innerHTML = "";
+
+        data.forEach((d, i) => {
+          if (d.jenis === "Pemasukan") income += d.jumlah;
+          else expense += d.jumlah;
+
+          tbody.innerHTML += `
 <tr>
 <td>${d.tanggal}</td>
-<td class="${d.jenis==='Pemasukan'?'badge-in':'badge-out'}">${d.jenis}</td>
+<td class="${d.jenis === "Pemasukan" ? "badge-in" : "badge-out"}">${d.jenis}</td>
 <td>${d.ket}</td>
 <td>${rp(d.jumlah)}</td>
 <td><button onclick="hapus(${i})">Hapus</button></td>
 </tr>`;
-});
+        });
 
-document.getElementById('income').innerText=rp(income);
-document.getElementById('expense').innerText=rp(expense);
-document.getElementById('balance').innerText=rp(income-expense);
+        document.getElementById("income").innerText = rp(income);
+        document.getElementById("expense").innerText = rp(expense);
+        document.getElementById("balance").innerText = rp(income - expense);
 
-pieChart.data.datasets[0].data=[income,expense];
-pieChart.update();
+        pieChart.data.datasets[0].data = [income, expense];
+        pieChart.update();
 
-barChart.data.datasets[0].data=[income,expense];
-barChart.update();
+        barChart.data.datasets[0].data = [income, expense];
+        barChart.update();
 
-localStorage.setItem("financePro",JSON.stringify(data));
-}
+        localStorage.setItem("financePro", JSON.stringify(data));
+      }
 
-function addData(){
-const item={
-tanggal:tanggal.value,
-jenis:jenis.value,
-ket:ket.value,
-jumlah:Number(jumlah.value)
-};
+      function addData() {
+        const item = {
+          tanggal: tanggal.value,
+          jenis: jenis.value,
+          ket: ket.value,
+          jumlah: Number(jumlah.value),
+        };
 
-if(!item.tanggal||!item.ket||!item.jumlah){
-alert("Lengkapi data");
-return;
-}
+        if (!item.tanggal || !item.ket || !item.jumlah) {
+          alert("Lengkapi data");
+          return;
+        }
 
-data.unshift(item);
-render();
-}
+        data.unshift(item);
+        render();
+      }
 
-function hapus(i){
-data.splice(i,1);
-render();
-}
+      function hapus(i) {
+        data.splice(i, 1);
+        render();
+      }
 
-function exportJSON(){
-const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-const a=document.createElement('a');
-a.href=URL.createObjectURL(blob);
-a.download='finance.json';
-a.click();
-}
+      function exportJSON() {
+        const blob = new Blob([JSON.stringify(data, null, 2)], {
+          type: "application/json",
+        });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "finance.json";
+        a.click();
+      }
 
-function importFile(e){
-const file=e.target.files[0];
-const r=new FileReader();
-r.onload=(x)=>{
-data=JSON.parse(x.target.result);
-render();
-}
-r.readAsText(file);
-}
+      function importFile(e) {
+        const file = e.target.files[0];
+        const r = new FileReader();
+        r.onload = (x) => {
+          data = JSON.parse(x.target.result);
+          render();
+        };
+        r.readAsText(file);
+      }
 
-render();
-</script>
-</body>
+      async function sha256(text) {
+        const msgUint8 = new TextEncoder().encode(text);
+
+        const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8);
+
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+        return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+      }
+
+      async function login() {
+        if (failCount >= 5) {
+          document.getElementById("loginInfo").innerText =
+            "Terlalu banyak percobaan login";
+
+          return;
+        }
+
+        const pass = document.getElementById("loginPassword").value;
+
+        const hash = await sha256(pass);
+
+        if (hash === PASSWORD_HASH) {
+          sessionStorage.setItem("finance_login", "1");
+
+          document.getElementById("lockscreen").style.display = "none";
+
+          failCount = 0;
+
+          localStorage.setItem("failCount", 0);
+        } else {
+          failCount++;
+
+          localStorage.setItem("failCount", failCount);
+
+          document.getElementById("loginInfo").innerText =
+            "Password salah (" + failCount + "/5)";
+        }
+      }
+
+      if (sessionStorage.getItem("finance_login") === "1") {
+        document.addEventListener("DOMContentLoaded", () => {
+          document.getElementById("lockscreen").style.display = "none";
+        });
+      }
+
+      let timeout;
+
+      function resetLock() {
+        clearTimeout(timeout);
+
+        timeout = setTimeout(() => {
+          sessionStorage.removeItem("finance_login");
+
+          location.reload();
+        }, 300000);
+      }
+
+      document.addEventListener("mousemove", resetLock);
+
+      document.addEventListener("keydown", resetLock);
+
+      resetLock();
+
+      render();
+    </script>
+  </body>
 </html>
