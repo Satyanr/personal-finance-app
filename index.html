@@ -181,6 +181,34 @@
         margin-top: 10px;
         color: #ef4444;
       }
+
+      .currency-input {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        background: #09111f;
+        border: 1px solid #2e426c;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .currency-input span {
+        padding: 14px 16px;
+        background: #16233d;
+        color: #94a3b8;
+        font-weight: 700;
+        border-right: 1px solid #2e426c;
+      }
+
+      .currency-input input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        color: #fff;
+        padding: 14px;
+        outline: none;
+        font-size: 15px;
+      }
     </style>
   </head>
   <body>
@@ -231,7 +259,16 @@
               <option>Pengeluaran</option>
             </select>
             <input type="text" id="ket" placeholder="Keterangan" />
-            <input type="number" id="jumlah" placeholder="Nominal" />
+            <div class="currency-input">
+              <span>Rp</span>
+              <input
+                type="text"
+                id="jumlah"
+                placeholder="0"
+                autocomplete="off"
+                inputmode="numeric"
+              />
+            </div>
           </div>
 
           <div class="actions">
@@ -338,19 +375,36 @@
       }
 
       function addData() {
+        const nominal = Number(jumlah.value.replace(/\./g, ""));
+
         const item = {
           tanggal: tanggal.value,
           jenis: jenis.value,
           ket: ket.value,
-          jumlah: Number(jumlah.value),
+          jumlah: nominal,
         };
 
-        if (!item.tanggal || !item.ket || !item.jumlah) {
-          alert("Lengkapi data");
+        if (!item.tanggal) {
+          alert("Pilih tanggal");
+          return;
+        }
+
+        if (!item.ket.trim()) {
+          alert("Isi keterangan");
+          return;
+        }
+
+        if (nominal <= 0) {
+          alert("Nominal harus lebih dari Rp 0");
           return;
         }
 
         data.unshift(item);
+
+        tanggal.value = "";
+        ket.value = "";
+        jumlah.value = "";
+
         render();
       }
 
@@ -442,6 +496,19 @@
       document.addEventListener("keydown", resetLock);
 
       resetLock();
+
+      const jumlahInput = document.getElementById("jumlah");
+
+      jumlahInput.addEventListener("input", function (e) {
+        let angka = e.target.value.replace(/\D/g, "");
+
+        if (!angka) {
+          e.target.value = "";
+          return;
+        }
+
+        e.target.value = new Intl.NumberFormat("id-ID").format(angka);
+      });
 
       render();
     </script>
